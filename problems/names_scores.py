@@ -1,6 +1,8 @@
 # https://projecteuler.net/problem=22
+import os
+
 names = []
-with open("0022_names.txt", "r") as file:
+with open(os.path.join(os.path.dirname(__file__), "0022_names.txt"), "r") as file:
     names = file.read().replace("\"","").split(",")
 
 names.sort()

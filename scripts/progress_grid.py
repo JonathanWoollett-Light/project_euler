@@ -1,6 +1,6 @@
 """Draw progress.svg: one square per Project Euler problem, filled if solved.
 
-A problem counts as solved when a .py file at the repo root links to it, which
+A problem counts as solved when a .py file in problems/ links to it, which
 each solution does on its first line, e.g. `# https://projecteuler.net/problem=6`.
 Solutions are read from HEAD by default, so the grid matches what gets pushed.
 
@@ -35,11 +35,11 @@ INK = "#7d7b76"
 
 
 def solved_problems(rev):
-    """Problems linked from root-level .py files at `rev` (the worktree if None)."""
+    """Problems linked from .py files in problems/ at `rev` (the worktree if None)."""
     cmd = ["git", "grep", "--no-color", "--no-line-number", "--no-column", "-o", "-E", SOLUTION_LINK]
     if rev:
         cmd.append(rev)
-    cmd += ["--", ":(glob)*.py"]
+    cmd += ["--", ":(glob)problems/*.py"]
     result = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if result.returncode > 1:  # 1 only means nothing matched
         sys.exit(result.stderr.strip())
