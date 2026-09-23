@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=34
 # multiplication -> prime?
 
 # 1! + 2! + 3! + 4! = 1 + 1*2 + 1*2*3 + 1*2*3*4

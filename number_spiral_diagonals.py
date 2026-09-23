@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=28
 # 1^2 + 3^2 + 5^2 + ..
 # n = 5
 n = 1001

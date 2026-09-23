@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=39
 import math
 
 n = 1000

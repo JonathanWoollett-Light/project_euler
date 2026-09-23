@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=33
 # a fraction is curious if by cancelling common digits in the numerator and
 # # denominator the result is a fraction which has the same value as the
 # original fraction e.g. 49/98 = 4/8 (cancelling the common 9s)

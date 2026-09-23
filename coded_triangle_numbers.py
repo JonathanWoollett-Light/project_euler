@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=42
 import math
 import os
 

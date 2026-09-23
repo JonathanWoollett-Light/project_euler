@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=43
 # find the sum of all pandigital number where n-th sliding window of 3 digits
 # is divisble by the n-th prime number
 

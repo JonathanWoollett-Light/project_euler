@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=3
 from tqdm import tqdm
 
 primes = [2]

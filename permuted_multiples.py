@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=52
 from tqdm import tqdm
 import math
 

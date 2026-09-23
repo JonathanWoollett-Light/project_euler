@@ -1,0 +1,4 @@
+# Hooks run under sh, which fails on CRLF line endings.
+.githooks/* text eol=lf
+# scripts/progress_grid.py writes this with LF; keep checkouts identical.
+progress.svg text eol=lf

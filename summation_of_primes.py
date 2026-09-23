@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=10
 from tqdm import tqdm
 import numpy as np
 

@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=9
 from math import isqrt
 
 N = 500_000          # (1000 - a)(1000 - b) = 500000 = 2**5 * 5**6

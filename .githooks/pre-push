@@ -1,0 +1,39 @@
+#!/bin/sh
+# Regenerate progress.svg, the solved-problems grid shown in the README,
+# whenever the current branch is pushed.
+#
+# A pre-push hook can't add commits to the push already under way, so when the
+# grid changes it is committed and this push is stopped. Running `git push`
+# again sends the new commit along with everything else.
+#
+# Enable with: git config core.hooksPath .githooks
+
+head=$(git rev-parse --verify -q HEAD) || exit 0
+
+# Only act when HEAD is being pushed, not for tags, other branches or deletions.
+pushing_head=
+while read -r _ local_oid _ _; do
+    [ "$local_oid" = "$head" ] && pushing_head=1
+done
+[ -n "$pushing_head" ] || exit 0
+
+# A broken grid shouldn't block a push, so failures below only warn.
+for python in python3 python py; do
+    "$python" -c "" 2>/dev/null && break
+    python=
+done
+if [ -z "$python" ]; then
+    echo "pre-push: warning: Python not found, progress grid not updated" >&2
+    exit 0
+fi
+if ! "$python" scripts/progress_grid.py; then
+    echo "pre-push: warning: progress grid not updated" >&2
+    exit 0
+fi
+
+if [ -n "$(git status --porcelain -- progress.svg)" ]; then
+    git add -- progress.svg &&
+        git commit -q -m "Update Project Euler progress grid" -- progress.svg || exit 1
+    echo "pre-push: committed the updated progress grid; run git push again to include it" >&2
+    exit 1
+fi

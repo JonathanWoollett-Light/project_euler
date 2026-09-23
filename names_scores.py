@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=22
 names = []
 with open("0022_names.txt", "r") as file:
     names = file.read().replace("\"","").split(",")
