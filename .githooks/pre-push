@@ -17,7 +17,6 @@ while read -r _ local_oid _ _; do
 done
 [ -n "$pushing_head" ] || exit 0
 
-# A broken grid shouldn't block a push, so failures below only warn.
 for python in python3 python py; do
     "$python" -c "" 2>/dev/null && break
     python=
@@ -26,9 +25,10 @@ if [ -z "$python" ]; then
     echo "pre-push: warning: Python not found, progress grid not updated" >&2
     exit 0
 fi
+# Stop the push rather than let the grid go stale; `git push --no-verify` skips this.
 if ! "$python" scripts/progress_grid.py; then
-    echo "pre-push: warning: progress grid not updated" >&2
-    exit 0
+    echo "pre-push: progress grid not updated, push stopped" >&2
+    exit 1
 fi
 
 if [ -n "$(git status --porcelain -- progress.svg)" ]; then

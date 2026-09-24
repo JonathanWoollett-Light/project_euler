@@ -34,19 +34,31 @@ UNSOLVED = "#898781"  # drawn at 20% opacity
 INK = "#7d7b76"
 
 
-def solved_problems(rev):
-    """Problems linked from .py files in problems/ at `rev` (the worktree if None)."""
-    cmd = ["git", "grep", "--no-color", "--no-line-number", "--no-column", "-o", "-E", SOLUTION_LINK]
+def grep_solutions(rev, option):
+    """Run `git grep <option>` for problem links over problems/*.py at `rev` (the worktree if None)."""
+    cmd = ["git", "grep", "--no-color", "--no-line-number", "--no-column", option, "-E", SOLUTION_LINK]
     if rev:
         cmd.append(rev)
     cmd += ["--", ":(glob)problems/*.py"]
     result = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if result.returncode > 1:  # 1 only means nothing matched
         sys.exit(result.stderr.strip())
+    return result.stdout.splitlines()
+
+
+def solved_problems(rev):
+    """Problems linked from .py files in problems/ at `rev` (the worktree if None)."""
+    # A solution without a link would silently leave the grid stale, so refuse instead.
+    unlinked = [path.removeprefix(f"{rev}:") for path in grep_solutions(rev, "-L")]
+    if unlinked:
+        sys.exit(
+            "progress_grid: add a first line like `# https://projecteuler.net/problem=N` to:\n  "
+            + "\n  ".join(unlinked)
+        )
 
     # Only a file's first link counts, so a comment mentioning another problem is ignored.
     first_link = {}
-    for line in result.stdout.splitlines():
+    for line in grep_solutions(rev, "-o"):
         path, _, link = line.rpartition(":")
         first_link.setdefault(path, int(link.rpartition("=")[2]))
     return set(first_link.values())

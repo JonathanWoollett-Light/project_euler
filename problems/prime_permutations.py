@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=49
 # find the sole arithmetic sequence, which consits of 3 4 digits prime numbers
 # which are permutations of each other
 
