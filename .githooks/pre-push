@@ -1,20 +1,36 @@
 #!/bin/sh
-# Regenerate progress.svg, the solved-problems grid shown in the README,
-# whenever the current branch is pushed.
+# Check every solution in problems/ links its problem, then regenerate
+# progress.svg, the solved-problems grid shown in the README, whenever the
+# current branch is pushed.
 #
 # A pre-push hook can't add commits to the push already under way, so when the
 # grid changes it is committed and this push is stopped. Running `git push`
 # again sends the new commit along with everything else.
 #
 # Enable with: git config core.hooksPath .githooks
+# Skip with:   git push --no-verify
 
-head=$(git rev-parse --verify -q HEAD) || exit 0
+head=$(git rev-parse --verify -q HEAD)
 
-# Only act when HEAD is being pushed, not for tags, other branches or deletions.
+# A solution without a link is invisible to the grid, so check every pushed
+# commit (branches and tags alike), not just HEAD.
 pushing_head=
+unlinked=
 while read -r _ local_oid _ _; do
+    case $local_oid in *[!0]*) ;; *) continue ;; esac # all zeros: a deletion
     [ "$local_oid" = "$head" ] && pushing_head=1
+    unlinked="$unlinked
+$(git grep --no-color -L -E 'projecteuler\.net/problem=[0-9]+' "$local_oid" -- ':(glob)problems/*.py' |
+        sed 's/^[^:]*://')"
 done
+unlinked=$(printf '%s\n' "$unlinked" | sed '/^$/d' | sort -u)
+if [ -n "$unlinked" ]; then
+    echo "pre-push: these solutions need a first line like # https://projecteuler.net/problem=N" >&2
+    printf '%s\n' "$unlinked" | sed 's/^/  /' >&2
+    exit 1
+fi
+
+# Only redraw the grid when HEAD is being pushed, not for tags or other branches.
 [ -n "$pushing_head" ] || exit 0
 
 for python in python3 python py; do
