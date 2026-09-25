@@ -3,9 +3,9 @@
 # progress.svg, the solved-problems grid shown in the README, whenever the
 # current branch is pushed.
 #
-# A pre-push hook can't add commits to the push already under way, so when the
-# grid changes it is committed and this push is stopped. Running `git push`
-# again sends the new commit along with everything else.
+# A pre-push hook can't change what the push already under way sends, so when
+# the grid changes it is amended into the commit being pushed and this push is
+# stopped. Running `git push` again sends the amended commit.
 #
 # Enable with: git config core.hooksPath .githooks
 # Skip with:   git push --no-verify
@@ -48,8 +48,14 @@ if ! "$python" scripts/progress_grid.py; then
 fi
 
 if [ -n "$(git status --porcelain -- progress.svg)" ]; then
-    git add -- progress.svg &&
+    git add -- progress.svg || exit 1
+    # Amending a commit a remote already has would fork history, so commit separately then.
+    if [ -z "$(git for-each-ref --contains "$head" refs/remotes)" ]; then
+        git commit -q --amend --no-edit -- progress.svg || exit 1
+        echo "pre-push: amended the updated progress grid into the last commit; run git push again to send it" >&2
+    else
         git commit -q -m "Update Project Euler progress grid" -- progress.svg || exit 1
-    echo "pre-push: committed the updated progress grid; run git push again to include it" >&2
+        echo "pre-push: committed the updated progress grid; run git push again to include it" >&2
+    fi
     exit 1
 fi
