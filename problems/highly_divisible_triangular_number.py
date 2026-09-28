@@ -10,8 +10,11 @@ from tqdm import tqdm
 def numFactors(x: int) -> int:
     count = 1
     p = 2
+    # loops over candidate factors p up to sqrt of what's left of x. composite p never divide since
+    # their prime factors were already divided out, so only primes contribute
     while p * p <= x:
         e = 0
+        # loops over each power of p dividing x, dividing it out and counting the exponent e
         while x % p == 0:
             x //= p
             e += 1
