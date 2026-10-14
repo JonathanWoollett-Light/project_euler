@@ -21,6 +21,7 @@ def isPrime(x: int):
     return True
 
 # checks that `x` is a composite number (e.g. has 3 or more factors)
+# e.g. has a factor that's not 1 or itself
 def isComposite(x: int) -> bool:
     if x < 4: return False
     for d in range(2, math.isqrt(x) + 1):
