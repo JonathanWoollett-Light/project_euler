@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="746" height="320" viewBox="0 0 746 320" role="img" data-problems="1014">
-<title>Project Euler progress: 51 of 1,014 problems solved</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="746" height="320" viewBox="0 0 746 320" role="img" data-problems="1015">
+<title>Project Euler progress: 52 of 1,015 problems solved</title>
 <style>
 text { font: 10px system-ui, -apple-system, 'Segoe UI', sans-serif; fill: #7d7b76 }
 .head { font-size: 13px; font-weight: 600 }
@@ -8,7 +8,7 @@ rect { fill: #898781; fill-opacity: 0.2 }
 .solved { fill: #2a78d6; fill-opacity: 1 }
 </style>
 <rect class="solved" x="32" y="5" width="12" height="12" rx="2"/>
-<text class="head" x="50" y="16">51 of 1,014 problems solved (5.0%)</text>
+<text class="head" x="50" y="16">52 of 1,015 problems solved (5.1%)</text>
 <text class="row" x="26" y="38">1</text>
 <text class="row" x="26" y="52">51</text>
 <text class="row" x="26" y="66">101</text>
@@ -91,7 +91,7 @@ rect { fill: #898781; fill-opacity: 0.2 }
 <rect class="solved" x="144" y="42" width="12" height="12" rx="2"><title>Problem 59: solved</title></rect>
 <rect x="158" y="42" width="12" height="12" rx="2"><title>Problem 60</title></rect>
 <rect x="176" y="42" width="12" height="12" rx="2"><title>Problem 61</title></rect>
-<rect x="190" y="42" width="12" height="12" rx="2"><title>Problem 62</title></rect>
+<rect class="solved" x="190" y="42" width="12" height="12" rx="2"><title>Problem 62: solved</title></rect>
 <rect class="solved" x="204" y="42" width="12" height="12" rx="2"><title>Problem 63: solved</title></rect>
 <rect x="218" y="42" width="12" height="12" rx="2"><title>Problem 64</title></rect>
 <rect x="232" y="42" width="12" height="12" rx="2"><title>Problem 65</title></rect>
@@ -1044,4 +1044,5 @@ rect { fill: #898781; fill-opacity: 0.2 }
 <rect x="190" y="308" width="12" height="12" rx="2"><title>Problem 1012</title></rect>
 <rect x="204" y="308" width="12" height="12" rx="2"><title>Problem 1013</title></rect>
 <rect x="218" y="308" width="12" height="12" rx="2"><title>Problem 1014</title></rect>
+<rect x="232" y="308" width="12" height="12" rx="2"><title>Problem 1015</title></rect>
 </svg>
